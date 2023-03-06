@@ -1,14 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-CHOICES = (
-    ('Gray', 'Серый'),
-    ('Black', 'Чёрный'),
-    ('White', 'Белый'),
-    ('Ginger', 'Рыжий'),
-    ('Mixed', 'Смешанный'),
-)
-
 User = get_user_model()
 
 
@@ -21,12 +13,20 @@ class Achievement(models.Model):
 
 class Cat(models.Model):
     name = models.CharField(max_length=16)
-    color = models.CharField(max_length=16, choices=CHOICES)
+    color = models.CharField(max_length=16)
     birth_year = models.IntegerField()
     owner = models.ForeignKey(
         User, related_name='cats', on_delete=models.CASCADE)
     achievements = models.ManyToManyField(
         Achievement, through='AchievementCat')
+    image = models.ImageField(
+        upload_to='cats/images/',
+        null=True,
+        default=None,
+    )
+
+    class Meta:
+        ordering = ('id',)
 
     def __str__(self):
         return self.name

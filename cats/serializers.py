@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
 import datetime as dt
 
-from .models import CHOICES, Achievement, AchievementCat, Cat, User
+from .models import Achievement, AchievementCat, Cat, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,7 +24,6 @@ class AchievementSerializer(serializers.ModelSerializer):
 
 class CatSerializer(serializers.ModelSerializer):
     achievements = AchievementSerializer(many=True, required=False)
-    color = serializers.ChoiceField(choices=CHOICES)
     age = serializers.SerializerMethodField()
 
     class Meta:
